@@ -1,0 +1,26 @@
+language: go
+
+# We use matrix to prepare for future use when later
+# we decided to have vendoring solution on go module.
+# The main purpose of the usage of this feature now 
+# is just for knowledge documentation.
+#
+# Check out this awesome article for more details:
+# https://arslan.io/2018/08/26/using-go-modules-with-vendor-support-on-travis-ci/
+matrix:
+  include:
+    # make sure package is buildable pre-module era
+    - go: "1.10.x"
+      script:
+        - go test -v
+        - go build
+    # make sure package is buildable on module era using vendor
+    - go: "1.x"
+      script:
+        - go test -v -mod=vendor
+        - go build -mod=vendor
+
+env:
+  - GO111MODULE=on
+
+install: true
